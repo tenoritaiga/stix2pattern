@@ -15,4 +15,12 @@ RUN pip3 install pipenv --default-timeout=100
 # installing dev to do unit tests from docker
 RUN pipenv install --dev --system
 
+# Run as non-root
+RUN addgroup -g 30000 -S appuser && \
+adduser -u 30000 -S appuser -G appuser
+
+RUN chown -R 30000:30000 $WORKING_DIRECTORY
+
 EXPOSE 5000
+
+USER 30000
